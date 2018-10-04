@@ -30,14 +30,22 @@ func main() {
 
 func coverageReportToConsole(examples []string, withTests []string) {
 
-	longestExampleName := longestExampleName(examples)
-	color.Cyan("%sTest Exists", addPad("Example Name", longestExampleName))
-	color.Cyan("%s-----------", addPad("------------", longestExampleName))
+	color.Cyan("Pulumi Examples Test Coverage")
+	color.Cyan("-----------------i-----------")
+	color.Cyan("")
+	margin := len("Percentage with tests:")
+	color.Magenta("%s%d", addPad("Number of Examples:", margin), len(examples))
+	color.Magenta("%s%d", addPad("Number of Tests:", margin), len(withTests))
+	color.Yellow("%s%0.2f %%", addPad("Percentage with tests:", margin), float64(len(withTests))/float64(len(examples))*100.00)
+	color.Cyan("")
+	margin = longestExampleName(examples)
+	color.Cyan("%sTest Exists", addPad("Example Name", margin))
+	color.Cyan("%s-----------", addPad("------------", margin))
 	for _, e := range examples {
 		if contains(e, withTests) {
-			color.Cyan("%sYes", addPad(e, longestExampleName))
+			color.Cyan("%sYes", addPad(e, margin))
 		} else {
-			color.Red("%sNO", addPad(e, longestExampleName))
+			color.Yellow("%sNO", addPad(e, margin))
 		}
 	}
 	color.Unset()
@@ -98,15 +106,6 @@ func getExamplesWithTests() []string {
 	return result
 }
 
-func contains(a string, list []string) bool {
-	for _, b := range list {
-		if b == a {
-			return true
-		}
-	}
-	return false
-}
-
 func getExamples() []string {
 	var result []string
 	goRoot := os.Getenv("GOPATH")
@@ -124,4 +123,13 @@ func getExamples() []string {
 		}
 	}
 	return result
+}
+
+func contains(a string, list []string) bool {
+	for _, b := range list {
+		if b == a {
+			return true
+		}
+	}
+	return false
 }
