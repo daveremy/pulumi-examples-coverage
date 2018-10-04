@@ -36,14 +36,14 @@ func coverageReportToConsole(examples []string, withTests []string) {
 	margin := len("Percentage with tests:")
 	color.Magenta("%s%d", addPad("Number of Examples:", margin), len(examples))
 	color.Magenta("%s%d", addPad("Number of Tests:", margin), len(withTests))
-	color.Yellow("%s%0.2f %%", addPad("Percentage with tests:", margin), float64(len(withTests))/float64(len(examples))*100.00)
+	color.Yellow("%s%0.2f%%", addPad("Percentage with tests:", margin), float64(len(withTests))/float64(len(examples))*100.00)
 	color.Cyan("")
 	margin = longestExampleName(examples)
 	color.Cyan("%sTest Exists", addPad("Example Name", margin))
 	color.Cyan("%s-----------", addPad("------------", margin))
 	for _, e := range examples {
 		if contains(e, withTests) {
-			color.Cyan("%sYes", addPad(e, margin))
+			color.Green("%sYes", addPad(e, margin))
 		} else {
 			color.Yellow("%sNO", addPad(e, margin))
 		}
